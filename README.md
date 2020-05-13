@@ -1,68 +1,70 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Lab: Router (Hooks)
 
-## Available Scripts
+This lab aims to apply the basics of:
 
-In the project directory, you can run:
+- event-binding
+- state
+- lifecycle methods
+- routing
 
-### `npm start`
+## In App.js:
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+1. Modify the behaviour of the Navbar.Brand and Nav.Link elements to behave as a react-router <NavLink>.  
+    
+    - Using <NavLink> will not trigger a full page refresh when navigating within a router.
+    
+    - Hint: Use 'as' attribute
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+2. Replace the current <Home> return with two <Route> components within a <Switch> component
+    
+    a. The first route will render the <Films> component if the path is "/films"
 
-### `npm test`
+    b. The second route will render the <Home> component if the path is "/"
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## In FilmsHook.js:
 
-### `npm run build`
+1. Create a variable called 'match' which captures the route match object
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+2. Add state:
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+    a. Make 'id' stateful with an initial state of an empty string
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+    b. Make 'films' stateful with an initial state of an empty list
 
-### `npm run eject`
+3. Write an effect hook for 'films' to fetch film list using the provided fetchFilms function and set it only once upon initialization
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+4. Replace { C.INCOMPLETE_2_FULL } with two <Route> components within a <Switch> component
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+    a. The first route will render the <FilmDetails> component if the path is exactly the match path + "/:id"
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+    b. The second route will render { C.SELECT_FILM } if the path is the match path
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+5. Add a callback hook to handle id change
 
-## Learn More
+    a. It should accept selectedId and set the "id" state to selectedId
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+    b. It should be memoized only once (at initialization)
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+    c. Pass it as a prop called onIdChange to the FilmDetails component in the route you created in the previous step
 
-### Code Splitting
+    d. Add a "className" property to the ListGroup.Item elements that will conditionally set the class to "active" or "" depending if the state id matches the element's film.id
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
+## In FilmDetailsHook.js:
 
-### Analyzing the Bundle Size
+1. Create a variable called 'id' which captures the :id from the Route using one of the react-router hooks
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
+2. Add state:
 
-### Making a Progressive Web App
+    a. Make 'film' stateful with an initial state of an empty object
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
+    b. Make 'filmChildren' stateful with an initial state of an empty object
+    
+3. Add effects:
 
-### Advanced Configuration
+    a. Write an effect hook for 'film' to fetch the film details using the provided fetchFilm function and set it when id is changed
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
+    b. Write an effect hook for 'filmChildren' to format the film details using the provided generateChildren function when film is changed
 
-### Deployment
+4. Add an event handler inside the film effect to use the provided onIdChange function
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+    - Modify the effect to run when onIdChange is changed along with id
