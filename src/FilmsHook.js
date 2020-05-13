@@ -30,13 +30,13 @@ export const Films = () => {
   //    c. Pass it as a prop called onIdChange to the FilmDetails component in the route you created in the previous step
   //    d. Add a "className" property to the ListGroup.Item elements that will conditionally set the class to "active" or "" depending if the state id matches the element's film.id
   
-  const id = "";
-  const films = [];
+  const id = null;
+  const films = null;
 
   return (
     <Container>
       <h3 className="display-3" style={{'marginBottom': '10px'}}>
-        Ghibli Films
+        { !films ? "Part 2 Incomplete" : films.length > 0 ? "Ghibli Films" : ""}
       </h3>
       <Row>
         <Tab.Container id="film-list-container">
@@ -44,7 +44,7 @@ export const Films = () => {
             <div style={{'height': '70vh', 'overflowY': 'auto', 'padding': 0}}>
               <ListGroup id="filmList">
                 {
-                  films.map(film =>  {
+                  ( films ? films : [] ).map(film =>  {
                     return (
                       <ListGroup.Item as={ Link } key={ film.id } action variant='light'
                                       >
