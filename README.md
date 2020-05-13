@@ -7,6 +7,24 @@ This lab aims to apply the basics of:
 - lifecycle methods
 - routing
 
+## Running the App
+
+1. Clone
+
+    ### `git clone https://github.com/min1c/lab-router-hooks.git`
+
+2. Install dependencies
+
+    ### `npm install`
+
+3. Start the web application
+
+    ### `npm start`
+
+4. Open in web browser at http://localhost:3000/
+
+5. Follow instructions and edit code
+
 ## In App.js:
 
 1. Modify the behaviour of the Navbar.Brand and Nav.Link elements to behave as a react-router <NavLink>.  
