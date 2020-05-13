@@ -23,15 +23,17 @@ This lab aims to apply the basics of:
 
 ## In FilmsHook.js:
 
-1. Create a variable called 'match' which captures the route match object
-
-2. Add state:
+1. Add state:
 
     a. Make 'id' stateful with an initial state of an empty string
 
     b. Make 'films' stateful with an initial state of an empty list
 
-3. Write an effect hook for 'films' to fetch film list using the provided fetchFilms function and set it only once upon initialization
+2. Write an effect hook for 'films' to fetch film list using the provided fetchFilms function and set it only once upon initialization
+
+3. Create a variable called 'match' which captures the route match object
+
+    - Add a "to" property to the ListGroup.Item elements to link to the film details. Use the match object and film.id
 
 4. Replace { C.INCOMPLETE_2_FULL } with two <Route> components within a <Switch> component
 

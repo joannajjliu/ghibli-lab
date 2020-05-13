@@ -11,7 +11,7 @@ import Container from 'react-bootstrap/Container';
 import * as C from './FilmConstants'
 import { Films } from './FilmsHook';
 
-export default function App() {
+const App = () => {
 
   // 1. Modify the behaviour of the Navbar.Brand and Nav.Link elements to behave as a react-router <NavLink>.
   //    Using <NavLink> will not trigger a full page refresh when navigating within a router. 
@@ -36,7 +36,9 @@ export default function App() {
   );
 }
 
-function Home() {
+export default App;
+
+const Home = () => {
   return (
     <Container>
       <h3 className="display-3">Home</h3>
