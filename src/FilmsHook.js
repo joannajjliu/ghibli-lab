@@ -1,21 +1,22 @@
 import React, { useEffect, useState, useCallback } from "react";
-import {
-  Link,
-  Route,
-  Switch,
-  useRouteMatch,
-} from "react-router-dom";
-import Col from 'react-bootstrap/Col';
-import Container from 'react-bootstrap/Container';
-import ListGroup from 'react-bootstrap/ListGroup';
-import Row from 'react-bootstrap/Row';
-import Tab from 'react-bootstrap/Tab';
-import * as C from './FilmConstants'
-import { FilmDetails } from './FilmDetailsHook';
+import { Link, Route, Switch, useRouteMatch } from "react-router-dom";
+import Col from "react-bootstrap/Col";
+import Container from "react-bootstrap/Container";
+import ListGroup from "react-bootstrap/ListGroup";
+import Row from "react-bootstrap/Row";
+import Tab from "react-bootstrap/Tab";
+import * as C from "./FilmConstants";
+import { FilmDetails } from "./FilmDetailsHook";
 
 export const Films = () => {
+  const [id, setId] = useState("");
+  const [films, setFilms] = useState([]);
+  const match = useRouteMatch();
 
-  // 1. Add state: 
+  useEffect(() => {
+    fetchFilms().then((allFilms) => setFilms(allFilms));
+  }, []);
+  // 1. Add state:
   //    a. Make 'id' stateful with an initial state of an empty string
   //    b. Make 'films' stateful with an initial state of an empty list
   // 2. Write an effect hook for 'films' to fetch film list using the provided fetchFilms function and set it only once upon initialization
@@ -29,35 +30,45 @@ export const Films = () => {
   //    b. It should be memoized only once (at initialization)
   //    c. Pass it as a prop called onIdChange to the FilmDetails component in the route you created in the previous step
   //    d. Add a "className" property to the ListGroup.Item elements that will conditionally set the class to "active" or "" depending if the state id matches the element's film.id
-  
-  const id = null;
-  const films = null;
 
+  // const id = null;
+  // const films = null;
+  console.log("match:", match);
   return (
     <Container>
-      <h3 className="display-3" style={{'marginBottom': '10px'}}>
-        { !films ? "Part 2 Incomplete" : films.length > 0 ? "Ghibli Films" : ""}
+      <h3 className="display-3" style={{ marginBottom: "10px" }}>
+        {!films ? "Part 2 Incomplete" : films.length > 0 ? "Ghibli Films" : ""}
       </h3>
       <Row>
         <Tab.Container id="film-list-container">
           <Row>
-            <div style={{'height': '70vh', 'overflowY': 'auto', 'padding': 0}}>
+            <div style={{ height: "70vh", overflowY: "auto", padding: 0 }}>
               <ListGroup id="filmList">
-                {
-                  ( films ? films : [] ).map(film =>  {
-                    return (
-                      <ListGroup.Item as={ Link } key={ film.id } action variant='light'
-                                      >
-                        {film.title}
-                      </ListGroup.Item>
-                    );
-                  })
-                }
+                {(films ? films : []).map((film) => {
+                  return (
+                    <ListGroup.Item
+                      as={Link}
+                      key={film.id}
+                      action
+                      variant="light"
+                      to={`${match.url}/${film.id}`}
+                    >
+                      {film.title}
+                    </ListGroup.Item>
+                  );
+                })}
               </ListGroup>
-            </div >
-            <Col style={{'height': '70vh', 'overflowY': 'auto'}}>
+            </div>
+            <Col style={{ height: "70vh", overflowY: "auto" }}>
               <Tab.Content>
-                { C.INCOMPLETE_2_FULL }
+                <Switch>
+                  <Route exact path={`${match.path}`}>
+                    {C.SELECT_FILM}
+                  </Route>
+                  <Route path={`${match.path}/:id`}>
+                    <FilmDetails />
+                  </Route>
+                </Switch>
               </Tab.Content>
             </Col>
           </Row>
@@ -65,9 +76,9 @@ export const Films = () => {
       </Row>
     </Container>
   );
-}
+};
 
 const fetchFilms = async () => {
   const response = await fetch(`${C.API_URL}?fields=id,title`);
   return response.json();
-}
+};
